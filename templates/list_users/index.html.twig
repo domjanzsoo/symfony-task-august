@@ -1,20 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ListUsersController!{% endblock %}
+{% block title %}All users{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="block h-[30rem] max-w-[800px] w-[60rem] mx-auto">
+        <h1 class="text-2xl text-center mt-12 mb-16">Fellow Fighters</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/project/src/Controller/ListUsersController.php'|file_link(0) }}">src/Controller/ListUsersController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/project/templates/list_users/index.html.twig'|file_link(0) }}">templates/list_users/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <table class="w-full my-0 align-middle text-dark border-neutral-200">
+            <thead class="align-bottom">
+            <tr class="pb- text-[0.95rem] bg-gray-800 text-white">
+                <th class="pt-2 text-center min-w-[135px]"></th>
+                <th class="pb-2 text-center min-w-[100px]">Username</th>
+                <th class="pb-2 text-center min-w-[100px]">Email</th>
+                <th class="pb-2 text-center min-w-[175px]">Rank</th>
+                <th class="pb-2 text-center min-w-[100px]">Based</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in paginator.items %}
+                <tr class="border-b border-dashed last:border-b-0">
+                    <td class="p-3 pl-0">
+                        <img src="{{ user.profileImageRoute ?: asset('/images/avatar/default-avatar.jpg') }}" class="w-[50px] h-[50px] inline-block shrink-0 rounded-2xl" alt=""/>
+                    </td>
+                    <td class="p-3 pl-0 text-sm text-center">
+                        <b>{{ user.username }}</b>
+                    </td>
+                    <td class="p-3 pl-0 text-sm text-center">
+                        <b>{{ user.email }}</b>
+                    </td>
+                    <td class="p-3 pl-0 text-sm text-center">
+                        <b>{{ user.millitaryRank }}</b>
+                    </td>
+                    <td class="p-3 pl-0 text-sm text-center">
+                        <b>{{ user.currentBase }}</b>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-24">
+        {% include 'paginator/paginator.html.twig' %}
+    </div>
 {% endblock %}

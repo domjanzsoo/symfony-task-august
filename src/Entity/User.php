@@ -115,7 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getMillitaryRank(): string
     {
-        return $this->millitaryRank;
+        return RankEnum::fromName($this->millitaryRank);
     }
 
     public function setMillitaryRank(string $rank): static

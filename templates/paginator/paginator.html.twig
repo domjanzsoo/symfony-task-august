@@ -1,0 +1,37 @@
+{% set _currentPage = app.request.query.get('page') ?: 1 %}
+{% set _currentRoute = app.request.attributes.get('_route') %}
+{% set _lastPage = paginator.lastPage %}
+{% set _currentParams = app.request.query.all|merge(app.request.attributes.get('_route_params')) %}
+
+<style>
+    .disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .disabled a {
+        background: #A3A3A3;
+    }
+</style>
+
+{% if paginator.lastPage > 1 %}
+    <div class="flex content-center">
+        <div class="responsive mx-auto flex justify-content-center">
+            <div class="mt-1 mr-4 {{ _currentPage <= 1 ? ' disabled' : '' }}">
+                <a class="px-3 py-2 bg-gray-800 rounded-full text-white" href="{{ path(_currentRoute, _currentParams|merge({page: _currentPage - 1})) }}" aria-label="Previous">
+                    &laquo; Previous
+                </a>
+            </div>
+            {% for i in 1..paginator.lastPage %}
+                <div class="mr-2 px-3 py-1  rounded-full text-white {% if i == _currentPage %} bg-sky-600 {% else %} bg-gray-800 {% endif %}">
+                    <a class="" href="{{ path(_currentRoute, _currentParams|merge({page: i})) }}">{{ i }}</a>
+                </div>
+            {% endfor %}
+            <div class="mt-1 {{ _currentPage >= paginator.lastPage ? ' disabled' : '' }}">
+                <a class="px-3 py-2 bg-gray-800 rounded-full text-white" href="{{ path(_currentRoute, _currentParams|merge({page: _currentPage + 1})) }}" aria-label="Next">
+                    Next &raquo;
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
