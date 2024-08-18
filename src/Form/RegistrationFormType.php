@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use App\Entity\Enums\RankEnum;
 
 class RegistrationFormType extends AbstractType
@@ -27,7 +28,7 @@ class RegistrationFormType extends AbstractType
                     'class' => 'mt-1 w-full'
                 ]
             ])
-            ->add('email', TextType::class, [
+            ->add('email', EmailType::class, [
                 'row_attr' => [
                     'class' => ''
                 ],
@@ -58,7 +59,7 @@ class RegistrationFormType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password field must match',
                 'attr' => [
-                    'class' => 'w-full col-span-2 gap-2 grid grid-cols-2'
+                    'class' => ''
                 ],
                 'first_options' => [
                     'label' => 'Password',
