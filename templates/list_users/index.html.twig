@@ -76,7 +76,7 @@
                 </tr>
             </thead>
             <tbody>
-            <form method="POST" action="/delete/user" x-ref="deletionForm">
+            <form method="POST" action="/user/delete" x-ref="deletionForm">
                 <input type="hidden" name="search" value="{{ app.request.query.get('search') }}" />
                 <input type="hidden" name="page" value="{{ app.request.query.get('page') }}">
                 {% for user in paginator.items %}

@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateUserController extends AbstractController
 {
-    #[Route('/create/user', name: 'app_create_user', methods: ['GET', 'POST'])]
+    #[Route('/user/create', name: 'app_create_user', methods: ['GET', 'POST'])]
     public function index(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new User();

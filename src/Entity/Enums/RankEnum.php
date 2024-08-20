@@ -27,8 +27,8 @@ enum RankEnum: string
         return $array;
     }
 
-    public static function fromName(string $name): string
+    public static function fromName(?string $name): ?string
     {
-        return constant("self::$name")->value;
+        return isset($name) ? constant("self::$name")->value : null;
     }
 }

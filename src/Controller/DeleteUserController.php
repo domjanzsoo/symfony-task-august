@@ -13,7 +13,7 @@ use App\Utils\Paginator;
 
 class DeleteUserController extends AbstractController
 {
-    #[Route('/delete/user', name: 'app_delete_user')]
+    #[Route('/user/delete', name: 'app_delete_user')]
     public function index(Request $request, EntityManagerInterface $em, Paginator $paginator): Response
     {
         $em->getConnection()->beginTransaction();
