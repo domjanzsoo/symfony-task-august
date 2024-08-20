@@ -84,7 +84,7 @@
                         <td class="p-3 pl-0 flex">
                             <div class="mt-2 mr-2">
                                 <input
-                                    class="user-selection"
+                                    class="user-selection mt-3 w-4 h-4"
                                     type="checkbox"
                                     value="{{ user.id }}"
                                     @click="() => deleteAccess = (document.querySelectorAll('input[class=user-selection]:checked').length > 0) ? true : false"

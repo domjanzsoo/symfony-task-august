@@ -15,6 +15,10 @@ enum RankEnum: string
     case MAJOR_GENERAL = 'Major General';
     case COMMODORE = 'Commodore';
     case FLEET_COMMODORE = 'Fleet Commodore';
+    case MOFF = 'Moff';
+    case GOVERNOR = 'Governor';
+    case GRAND_MOFF = 'Grand Moff';
+    case GRAND_ADMIRAL = 'Grand Admiral';
 
     public static function toArray(): array
     {
