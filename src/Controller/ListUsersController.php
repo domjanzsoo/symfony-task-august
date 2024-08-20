@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ListUsersController extends AbstractController
 {
-    #[Route('/users', name: 'app_list_users')]
+    #[Route('/users', name: 'app_list_users', methods: ['GET', 'POST'])]
     public function index(Request $request, EntityManagerInterface $em, Paginator $paginator): Response
     {
         $query = $em->getRepository(User::class)->getAllQuery($request->get('search', null));
