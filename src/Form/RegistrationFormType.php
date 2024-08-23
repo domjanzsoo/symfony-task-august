@@ -13,7 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\Enums\RankEnum;
+use Symfony\Component\Validator\Constraints\File;
 
 class RegistrationFormType extends AbstractType
 {
@@ -91,7 +93,25 @@ class RegistrationFormType extends AbstractType
                     ]
                 ]
             ])
-        ;
+            ->add('profileImage', FileType::class, [
+                'label' => 'Image (jpg, png)',
+                'attr' => [
+                    'class' => 'hidden',
+                    'x-ref' => 'imageUpload'
+                ],
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image document',
+                    ])
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

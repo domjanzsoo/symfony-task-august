@@ -3,52 +3,94 @@
 {% block title %}Add User{% endblock %}
 
 {% block body %}
-    <div class="relative mx-auto mt-16 p-5 w-96 bg-sky-800" style="width: 550px">
+    <div
+        class="relative mx-auto mt-16 p-5 bg-sky-800 w-[550px]"
+    >
         <div class="mx-auto mt-5 text-3xl text-center text-white mb-3">Add User</div>
-        {{ form_start(createForm) }}
-        <span class="text-center text-red-700""> {{ form_errors(createForm) }} </span>
-        <div class="grid grid-cols-2 gap-2">
-            <div class="grid gap-2 col-span-2 grid-cols-4 mb-4">
-                <div class="mt-3 text-white">
-                    <div>Drag and Drop Placeholder</div>
+        {{ form_start(createForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+        <span class="text-center text-red-700"> {{ form_errors(createForm) }} </span>
+        <div class="grid grid-cols-4 gap-2">
+            <div class="mb-4">
+                <div
+                    class="mt-3 text-sm text-white"
+                    x-data="{
+                        inputId: 'registration_form_profileImage',
+                        fileInput: null,
+                        tmpImgUrl: '/public/uploads/profile-image/default-avatar.jpg',
+                    }"
+                    x-init="() => {
+                        $nextTick(() => {
+                            fileInput = $refs.imageUpload;
+
+                            $refs.image.style.backgroundImage = `url('${tmpImgUrl}')`;
+                        });
+                    }"
+                    x-on:drop="$event => {
+                        $event.preventDefault();
+
+                        const dataTransfer = new DataTransfer();
+                        const newFile = $event.dataTransfer.files[0];
+
+                        $refs.image.style.backgroundImage = `url('${URL.createObjectURL(newFile)}')`;
+
+                        dataTransfer.items.add(newFile);
+
+                        fileInput.value = '';
+
+                        fileInput.files = dataTransfer.files;
+
+                        fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    }"
+                    x-on:dragover.prevent="() => console.log('drag over prevented')">
+                    <div
+                        x-ref="image"
+                        class="rounded-full border bg-center bg-cover bg-no-repeat mb-3 w-24 h-24"
+                    ></div>
+                    {{ form_row(createForm.profileImage) }}
                 </div>
             </div>
-            {{ form_row(createForm._token) }}
-            <div>
-                <div class="text-white">{{ form_label(createForm.username) }}</div>
-                {{ form_widget(createForm.username) }}
-                <div class="text-red-300">{{ form_errors(createForm.username) }}</div>
-            </div>
-            <div>
-                <div class="text-white">{{ form_label(createForm.email) }}</div>
-                {{ form_widget(createForm.email) }}
-                <div class="text-red-300">{{ form_errors(createForm.email) }}</div>
-            </div>
-            <div>
-                <div class="text-white">{{ form_label(createForm.password.first) }}</div>
-                {{ form_widget(createForm.password.first) }}
-                <div class="text-red-300">{{ form_errors(createForm.password.first) }}</div>
-            </div>
-            <div>
-                <div class="text-white">{{ form_label(createForm.password.second) }}</div>
-                {{ form_widget(createForm.password.second) }}
-                <div class="text-red-300">{{ form_errors(createForm.password.second) }}</div>
-            </div>
-            <div class="mt-3">
-                <div class="text-white">{{ form_label(createForm.currentBase) }}</div>
-                {{ form_widget(createForm.currentBase) }}
-                <div class="text-red-300">{{ form_errors(createForm.currentBase) }}</div>
-            </div>
-            <div class="mt-3">
-                <div class="text-white">{{ form_label(createForm.millitaryRank) }}</div>
-                {{ form_widget(createForm.millitaryRank) }}
-                <div class="text-red-300">{{ form_errors(createForm.millitaryRank) }}</div>
-            </div>
-            <div class="flex flex-row justify-end col-span-2 pr-5 mt-6">
-                <button type="submit" class="bg-blue-600 p-2 rounded-2xl text-white hover:bg-gray-400 ml-2">
-                    Submit
-                <button>
+            <div class="grid grid-cols-2 col-span-3 gap-2">
+                {{ form_row(createForm._token) }}
+                <div>
+                    <div class="text-white">{{ form_label(createForm.username) }}</div>
+                    {{ form_widget(createForm.username) }}
+                    <div class="text-red-300">{{ form_errors(createForm.username) }}</div>
+                </div>
+                <div>
+                    <div class="text-white">{{ form_label(createForm.email) }}</div>
+                    {{ form_widget(createForm.email) }}
+                    <div class="text-red-300">{{ form_errors(createForm.email) }}</div>
+                </div>
+                <div>
+                    <div class="text-white">{{ form_label(createForm.password.first) }}</div>
+                    {{ form_widget(createForm.password.first) }}
+                    <div class="text-red-300">{{ form_errors(createForm.password.first) }}</div>
+                </div>
+                <div>
+                    <div class="text-white">{{ form_label(createForm.password.second) }}</div>
+                    {{ form_widget(createForm.password.second) }}
+                    <div class="text-red-300">{{ form_errors(createForm.password.second) }}</div>
+                </div>
+                <div class="mt-3">
+                    <div class="text-white">{{ form_label(createForm.currentBase) }}</div>
+                    {{ form_widget(createForm.currentBase) }}
+                    <div class="text-red-300">{{ form_errors(createForm.currentBase) }}</div>
+                </div>
+                <div class="mt-3">
+                    <div class="text-white">{{ form_label(createForm.millitaryRank) }}</div>
+                    {{ form_widget(createForm.millitaryRank) }}
+                    <div class="text-red-300">{{ form_errors(createForm.millitaryRank) }}</div>
+                </div>
+                <div class="flex flex-row justify-end col-span-2 pr-5 mt-6">
+                    <button type="submit" class="bg-blue-600 p-2 rounded-2xl text-white hover:bg-gray-400 ml-2">
+                        Submit
+                    </button>
+                    <a class="bg-gray-500 p-2 rounded-2xl text-white hover:bg-gray-400 ml-2" href="/user/list">
+                        Cancel
+                    </a>
+                </div>
             </div>
         </div>
+        {{ form_end(createForm) }}
     </div>
 {% endblock %}
