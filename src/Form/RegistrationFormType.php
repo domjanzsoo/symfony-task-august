@@ -53,7 +53,8 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'mt-1 w-full'
                 ],
-                'choices' => RankEnum::toArray()
+                'choices' => RankEnum::toArray(),
+                'required' => false
             ])
             ->add('password', RepeatedType::class, [
                 // instead of being set onto the object directly,

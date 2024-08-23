@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Enums\RankEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +45,12 @@ class CreateUserController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+
+            if (!empty($form->get('millitaryRank')->getData())) {
+                $roles = RankEnum::getRankRoles($form->get('millitaryRank')->getData());
+
+                $user->setRoles($roles);
+            }
 
             $em->persist($user);
             $em->flush();

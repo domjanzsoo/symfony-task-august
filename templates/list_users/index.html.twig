@@ -8,7 +8,7 @@
     [x-cloak] { display: none !important; }
 </style>
 
-    <div class="block h-[30rem] max-w-[800px] w-[60rem] mx-auto"
+    <div class="block h-[30rem] max-w-[800px] w-[60rem] mx-auto abel-regular"
         x-data="{
             searchValue: '{{ app.request.query.get('search') }}',
             'deleteAccess': false,
@@ -75,12 +75,12 @@
         </div>
         <table class="z-20 w-full my-0 border-separate align-middle text-dark border-neutral-200">
             <thead>
-                <tr class="rounded-xl pb-1 text-[0.95rem] bg-gray-800 text-white">
-                    <th class="pt-2 rounded-l-md text-center min-w-[135px]"></th>
-                    <th class="pb-2 text-center min-w-[100px]">Username</th>
-                    <th class="pb-2 text-center min-w-[100px]">Email</th>
-                    <th class="pb-2 text-center min-w-[175px]">Rank</th>
-                    <th class="pb-2 rounded-r-md text-center min-w-[100px]">Based</th>
+                <tr style="font-weight: normal !important" class="rounded-xl pb-1 font-semibold text-[1rem] bg-gray-800 text-white">
+                    <th style="font-weight: normal !important" class="pt-2 font-normal rounded-l-md text-center min-w-[135px]"></th>
+                    <th style="font-weight: normal !important" class="pb-1 text-center min-w-[100px]">Username</th>
+                    <th style="font-weight: normal !important" class="pb-1 text-center min-w-[100px]">Email</th>
+                    <th style="font-weight: normal !important" class="pb-1 text-center min-w-[175px]">Rank</th>
+                    <th style="font-weight: normal !important" class="pb-1 rounded-r-md text-center min-w-[100px]">Based</th>
                 </tr>
             </thead>
             <tbody>
@@ -101,17 +101,17 @@
                             </div>
                             <div class="w-[50px] h-[50px] inline-block rounded-full bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset(user.profileImageRoute) }}')"></div>
                         </td>
-                        <td class="p-3 pl-0 text-sm text-center">
-                            <b>{{ user.username }}</b>
+                        <td class="p-3 pl-0 text-md text-center">
+                            {{ user.username }}
                         </td>
-                        <td class="p-3 pl-0 text-sm text-center">
-                            <b>{{ user.email }}</b>
+                        <td class="p-3 pl-0 text-md text-center">
+                            {{ user.email }}
                         </td>
-                        <td class="p-3 pl-0 text-sm text-center">
-                            <b>{{ user.millitaryRank }}</b>
+                        <td class="p-3 pl-0 text-md text-center">
+                            {{ user.millitaryRank ?? 'None' }}
                         </td>
-                        <td class="p-3 pl-0 text-sm text-center">
-                            <b>{{ user.currentBase }}</b>
+                        <td class="p-3 pl-0 text-md text-center">
+                            {{ user.currentBase }}
                         </td>
                     </tr>
                 {% endfor %}
