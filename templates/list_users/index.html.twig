@@ -7,122 +7,141 @@
 <style>
     [x-cloak] { display: none !important; }
 </style>
-
-    <div class="block h-[30rem] max-w-[800px] w-[60rem] mx-auto abel-regular"
-        x-data="{
-            searchValue: '{{ app.request.query.get('search') }}',
-            'deleteAccess': false,
-        }"
-        x-init
-        @delete-user-confirmed.window="$refs.deletionForm.submit()">
-        <h1 class="text-2xl text-center mt-12 mb-16">Fellow Fighters</h1>
-
-        <div class="w-full mb-1 grid grid-cols-3 mt-5">
-            <div
-                class="col-span-2">
-                <form x-ref="searchForm" method="GET">
-                    <div class="flex bg-gray-800 p-1 w-[50%] rounded-r-3xl rounded-l-md">
-                        <label>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 mt-1 mr-2 text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                            </svg>
-                        </label>
-                        <input type="text" name="search" x-ref="searchInput" class="bg-transparent outline outline-0 border-white border-b-1 text-white" x-model="searchValue" placeholder="{{ app.request.query.get('search') ? '' : 'Search...'}}" />
-                        <input type="hidden" name="page" value={{ app.request.query.get('page') ?: 1 }}>
-                        <div
-                            x-cloak
-                            x-show="typeof searchValue === 'string' && searchValue.length > 0"
-                            @click="() => {
-                                searchValue = null;
-                                $refs.searchInput.value = '';
-                                $refs.searchForm.submit();
-                            }">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3" stroke="currentColor" class="w-4 h-4 mt-1 cursor-pointer text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                        </div>
+    <div
+        class="w-full h-full p-5"
+        style="background:linear-gradient(0deg, rgba(4, 12, 26, 0.7), rgba(10, 35, 60, 0.9)), url('/stormtroopers/navy-list.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; background-position:center"
+    >
+        {% if not is_granted('ROLE_ABSOLUTE_ACCESS') and not is_granted('ROLE_MANAGE_USER_PLUS') and not is_granted('ROLE_MANAGE_USER')  %}
+            <div class="mt-[10%] abel-regular text-3xl text-center text-white">You don't have the required permission to view this page.</div>
+        {% else %}
+            <div class="block h-auto p-12 max-w-[800px] opacity-75 text-white w-[60rem] mt-[5%] mx-auto abel-regular bg-gray-600"
+                x-data="{
+                    searchValue: '{{ app.request.query.get('search') }}',
+                    'deleteAccess': false,
+                }"
+                x-init
+                @delete-user-confirmed.window="$refs.deletionForm.submit()">
+                <h1 class="text-2xl text-center mb-12">Fellow Fighters</h1>
+                <div class="w-full mb-1 grid grid-cols-3 mt-5">
+                    <div
+                        class="col-span-2">
+                        <form x-ref="searchForm" method="GET">
+                            <div class="flex bg-gray-800 p-1 w-[50%] rounded-r-3xl rounded-l-md">
+                                <label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4 mt-1 mr-2 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                    </svg>
+                                </label>
+                                <input type="text" name="search" x-ref="searchInput" class="bg-transparent outline outline-0 border-white border-b-1 text-white" x-model="searchValue" placeholder="{{ app.request.query.get('search') ? '' : 'Search...'}}" />
+                                <input type="hidden" name="page" value={{ app.request.query.get('page') ?: 1 }}>
+                                <div
+                                    x-cloak
+                                    class="float-right"
+                                    x-show="typeof searchValue === 'string' && searchValue.length > 0"
+                                    @click="() => {
+                                        searchValue = null;
+                                        $refs.searchInput.value = '';
+                                        $refs.searchForm.submit();
+                                    }">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3" stroke="currentColor" class="w-4 h-4 mt-1 cursor-pointer text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                    <div>
+                        {% if is_granted('ROLE_ABSOLUTE_ACCESS') or is_granted('ROLE_MANAGE_USER_PLUS') %}
+                            <div class="float-right">
+                                <a class="px-3 py-[6px] ml-1 text-sm rounded-md text-white flex bg-sky-700 hover:bg-sky-500 cursor-pointer" href="/user/create">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-[3px] mr-[3px] w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    <span>Add User</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if is_granted('ROLE_ABSOLUTE_ACCESS') %}
+                            <div class="float-right">
+                                <template x-if="deleteAccess === true">
+                                    <button type="button" class="bg-gray-800 px-3 py-[6px] text-sm rounded-l-3xl rounded-r-md text-white flex hover:bg-sky-600" @click="$dispatch('display-modal', { id: 'delete-user' })">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9" stroke="currentColor" class="w-4 h-4 mt-[3px] mr-[3px]">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                        <span>Delete</span>
+                                    </button>
+                                </template>
+                                <template x-if="deleteAccess === false">
+                                    <button  type="button" class="bg-gray-400 px-3 py-[6px] text-sm rounded-l-3xl rounded-r-md text-white flex cursor-not-allowed" disabled>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9" stroke="currentColor" class="w-4 h-4 mt-[3px] mr-[3px]">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                        <span>Delete</span>
+                                    </button>
+                                </template>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="h-[450px] border-b-2 border-gray-700 mb-3">
+                    <table class="z-20 w-full my-0 border-collapse align-middle border-neutral-200">
+                        <thead>
+                            <tr style="font-weight: normal !important" class="rounded-xl pb-1 font-semibold text-[1rem] bg-gray-800 text-white">
+                                <th style="font-weight: normal !important" class="pt-2 font-normal rounded-l-md text-center min-w-[135px]"></th>
+                                <th style="font-weight: normal !important" class="pb-1 text-center min-w-[100px]">Username</th>
+                                <th style="font-weight: normal !important" class="pb-1 text-center min-w-[100px]">Email</th>
+                                <th style="font-weight: normal !important" class="pb-1 text-center min-w-[175px]">Rank</th>
+                                <th style="font-weight: normal !important" class="pb-1 rounded-r-md text-center min-w-[100px]">Based</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <form method="POST" action="/user/delete" x-ref="deletionForm">
+                            <input type="hidden" name="search" value="{{ app.request.query.get('search') }}" />
+                            <input type="hidden" name="page" value="{{ app.request.query.get('page') }}">
+                            {% for user in paginator.items %}
+                                <tr class="border-b-2 border-inline border-gray-700 last:border-b-0">
+                                    <td class="p-3 pl-0 flex">
+                                        <div class="user-selection">
+                                            {% if is_granted('ROLE_ABSOLUTE_ACCESS') %}
+                                                <input
+                                                    class="mt-5 w-4 h-4 mr-3"
+                                                    type="checkbox"
+                                                    value="{{ user.id }}"
+                                                    @click="() => deleteAccess = (document.querySelectorAll('.user-selection input[type=checkbox]:checked').length > 0) ? true : false"
+                                                    name="userSelect[]"
+                                                    class="mt-3 ml-2"/>
+                                            {% endif %}
+                                        </div>
+                                        <div class="w-[50px] h-[50px] inline-block rounded-full bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset(user.profileImageRoute) }}')"></div>
+                                    </td>
+                                    <td class="break-all p-3 pl-0 text-md text-center">
+                                        {{ user.username }}
+                                    </td>
+                                    <td class="break-all p-3 pl-0 text-md text-center">
+                                        {{ user.email }}
+                                    </td>
+                                    <td class="break-all p-3 pl-0 text-md text-center">
+                                        {{ user.millitaryRank ?? 'None' }}
+                                    </td>
+                                    <td class="break-all p-3 pl-0 text-md text-center">
+                                        {{ user.currentBase }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </form>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-18">
+                    {% include 'components/paginator/paginator.html.twig' %}
+                </div>
             </div>
             <div>
-                <div class="float-right">
-                    <a class="px-3 py-[6px] ml-1 text-sm rounded-md text-white flex bg-sky-700 hover:bg-sky-500 cursor-pointer" href="/user/create">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-[3px] mr-[3px] w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        <span>Add User</span>
-                    </a>
-                </div>
-                <div class="float-right">
-                     <template x-if="deleteAccess === true">
-                        <button type="button" class="bg-gray-800 px-3 py-[6px] text-sm rounded-l-3xl rounded-r-md text-white flex hover:bg-sky-600" @click="$dispatch('display-modal', { id: 'delete-user' })">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9" stroke="currentColor" class="w-4 h-4 mt-[3px] mr-[3px]">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                            </svg>
-                            <span>Delete</span>
-                        </button>
-                    </template>
-                    <template x-if="deleteAccess === false">
-                        <button type="button" class="bg-gray-400 px-3 py-[6px] text-sm rounded-l-3xl rounded-r-md text-white flex" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9" stroke="currentColor" class="w-4 h-4 mt-[3px] mr-[3px]">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                            </svg>
-                            <span>Delete</span>
-                        </button>
-                    </template>
-                </div>
+                {% include 'components/modal/index.html.twig' with {'modalId': 'delete-user', 'message': 'Are you sure you want to delete the selected users?'} %}
             </div>
-        </div>
-        <table class="z-20 w-full my-0 border-separate align-middle text-dark border-neutral-200">
-            <thead>
-                <tr style="font-weight: normal !important" class="rounded-xl pb-1 font-semibold text-[1rem] bg-gray-800 text-white">
-                    <th style="font-weight: normal !important" class="pt-2 font-normal rounded-l-md text-center min-w-[135px]"></th>
-                    <th style="font-weight: normal !important" class="pb-1 text-center min-w-[100px]">Username</th>
-                    <th style="font-weight: normal !important" class="pb-1 text-center min-w-[100px]">Email</th>
-                    <th style="font-weight: normal !important" class="pb-1 text-center min-w-[175px]">Rank</th>
-                    <th style="font-weight: normal !important" class="pb-1 rounded-r-md text-center min-w-[100px]">Based</th>
-                </tr>
-            </thead>
-            <tbody>
-            <form method="POST" action="/user/delete" x-ref="deletionForm">
-                <input type="hidden" name="search" value="{{ app.request.query.get('search') }}" />
-                <input type="hidden" name="page" value="{{ app.request.query.get('page') }}">
-                {% for user in paginator.items %}
-                    <tr class="border-b border-dashed last:border-b-0">
-                        <td class="p-3 pl-0 flex">
-                            <div class="user-selection">
-                                <input
-                                    class="mt-5 w-4 h-4 mr-3"
-                                    type="checkbox"
-                                    value="{{ user.id }}"
-                                    @click="() => deleteAccess = (document.querySelectorAll('.user-selection input[type=checkbox]:checked').length > 0) ? true : false"
-                                    name="userSelect[]"
-                                    class="mt-3 ml-2"/>
-                            </div>
-                            <div class="w-[50px] h-[50px] inline-block rounded-full bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset(user.profileImageRoute) }}')"></div>
-                        </td>
-                        <td class="p-3 pl-0 text-md text-center">
-                            {{ user.username }}
-                        </td>
-                        <td class="p-3 pl-0 text-md text-center">
-                            {{ user.email }}
-                        </td>
-                        <td class="p-3 pl-0 text-md text-center">
-                            {{ user.millitaryRank ?? 'None' }}
-                        </td>
-                        <td class="p-3 pl-0 text-md text-center">
-                            {{ user.currentBase }}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </form>
-            </tbody>
-        </table>
-    </div>
-    <div class="mt-24">
-        {% include 'components/paginator/paginator.html.twig' %}
-    </div>
-    <div>
-        {% include 'components/modal/index.html.twig' with {'modalId': 'delete-user', 'message': 'Are you sure you want to delete the selected users?'} %}
+            <div class="absolute right-[10%] top-[20%]">
+                {% include 'components/game/index.html.twig' %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -21,8 +22,12 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
+        $this->security = $security;
+
         parent::__construct($registry, User::class);
     }
 
@@ -53,6 +58,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 ->orWhere('u.currentBase LIKE :val')
                 ->setParameter('val', '%' . $search . '%');
         }
+
+        if (!$this->security->isGranted('ROLE_ABSOLUTE_ACCESS') && !$this->security->isGranted('ROLE_MANAGE_USER_PLUS')) {
+            $query->andWhere("JSON_CONTAINS(u.roles, '\"ROLE_ABSOLUTE_ACCESS\"', '$') = false");
+        }
+
+        // dd($query->getQuery());
 
         return $query->orderBy('u.id', 'ASC')->getQuery();
    }

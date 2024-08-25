@@ -3,44 +3,48 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="relative mx-auto mt-16 p-5 w-96 bg-sky-800">
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+<div
+    class="w-full h-full p-5"
+    style="background:linear-gradient(0deg, rgba(4, 12, 26, 0.7), rgba(10, 35, 60, 0.9)), url('/stormtroopers/stormtrooper-homepage.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: cover">
+    <div class="relative mx-auto mt-[10%] p-5 w-96 bg-sky-800 opacity-75 abel-regular">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
+            {% if app.user %}
+                <div class="mb-3 text-white text-center">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
 
-        <h1 class="h3 text-center  text-white text-2xl  mb-5 font-weight-normal">Please sign in</h1>
-        <div class="mb-3 grid grid-cols-4 gap-2">
-            <div>
-                <label class="text-white mr-2" for="inputUsername">Username</label>
+            <div class="mx-auto mt-5 text-3xl text-center text-white mb-3">Sign in</div>
+            <div class="mb-3 grid grid-cols-4 gap-2">
+                <div class="mt-3">
+                    <label class="text-white mr-2" for="inputUsername">Username</label>
+                </div>
+                <div class="col-span-3 mt-3">
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="w-full form-control pl-2" autocomplete="username" required autofocus>
+                </div>
             </div>
-            <div class="col-span-3">
-                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="w-full form-control" autocomplete="username" required autofocus>
+            <div class="grid grid-cols-4 gap-2 mb-3">
+                <div>
+                    <label for="inputPassword" class="text-white mr-2">Password</label>
+                </div>
+                <div class="col-span-3">
+                    <input type="password" name="password" id="inputPassword" class="w-full form-control pl-2" autocomplete="current-password" required>
+                </div>
             </div>
-        </div>
-        <div class="grid grid-cols-4 gap-2 mb-3">
-            <div>
-                <label for="inputPassword" class="text-white mr-2">Password</label>
-            </div>
-            <div class="col-span-3">
-                <input type="password" name="password" id="inputPassword" class="w-full form-control" autocomplete="current-password" required>
-            </div>
-        </div>
-        <input type="hidden" name="_csrf_token"
-            value="{{ csrf_token('authenticate') }}"
-        >
+            <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >
 
-        <div class="flex flex-row justify-end col-span-2 pr-5 mt-6">
-            <button class="bg-gray-500 p-2 rounded-2xl text-white hover:bg-gray-400 ml-2" type="submit">
-                Sign in
-            </button>
-        </div>
-    </form>
-</div
+            <div class="flex flex-row justify-end col-span-2 pr-5 mt-6">
+                <button class="bg-gray-500 p-2 rounded-2xl text-white hover:bg-sky-600 ml-2" type="submit">
+                    Sign in
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -21,6 +21,7 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+            entry_point: App\Security\AuthenticationEntryPoint
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -31,8 +32,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/user/create, roles: [ROLE_MANAGE_USER_PLUS,ROLE_ABSOLUTE_ACCESS] }
-        - { path: ^/user/list, roles: [ROLE_MANAGE_USER,ROLE_MANAGE_USER_PLUS,ROLE_ABSOLUTE_ACCESS] }
+        - { path: ^/user/create, roles: [ROLE_MANAGE_USER_PLUS, ROLE_ABSOLUTE_ACCESS] }
+        - { path: ^/user/delete, roles: [ROLE_ABSOLUTE_ACCESS] }
+        - { path: ^/user/list, roles: [ROLE_USER, ROLE_MANAGE_USER, ROLE_MANAGE_USER_PLUS, ROLE_ABSOLUTE_ACCESS] }
 
 when@test:
     security:

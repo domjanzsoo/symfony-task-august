@@ -27,7 +27,7 @@ class RegistrationFormType extends AbstractType
                     'class' => ''
                 ],
                 'attr' => [
-                    'class' => 'mt-1 w-full'
+                    'class' => 'mt-1 w-full pl-2'
                 ]
             ])
             ->add('email', EmailType::class, [
@@ -35,7 +35,7 @@ class RegistrationFormType extends AbstractType
                     'class' => ''
                 ],
                 'attr' => [
-                    'class' => 'mt-1 w-full'
+                    'class' => 'mt-1 w-full pl-2'
                 ]
             ])
             ->add('currentBase', TextType::class, [
@@ -43,7 +43,7 @@ class RegistrationFormType extends AbstractType
                     'class' => ''
                 ],
                 'attr' => [
-                    'class' => 'mt-1 w-full'
+                    'class' => 'mt-1 w-full pl-2'
                 ]
             ])
             ->add('millitaryRank', ChoiceType::class, [
@@ -51,7 +51,7 @@ class RegistrationFormType extends AbstractType
                     'class' => ''
                 ],
                 'attr' => [
-                    'class' => 'mt-1 w-full'
+                    'class' => 'mt-1 w-full pl-2'
                 ],
                 'choices' => RankEnum::toArray(),
                 'required' => false
@@ -67,7 +67,7 @@ class RegistrationFormType extends AbstractType
                 'first_options' => [
                     'label' => 'Password',
                     'attr' => [
-                        'class' => 'block w-full mt-1'
+                        'class' => 'block w-full mt-1 pl-2'
                     ],
                     'row_attr' => [
                         'class' => 'block',
@@ -87,7 +87,7 @@ class RegistrationFormType extends AbstractType
                 'second_options' => [
                     'label' => 'Repeat Password',
                     'attr' => [
-                        'class' => 'block w-full mt-1'
+                        'class' => 'block w-full mt-1 pl-2'
                     ],
                     'row_attr' => [
                         'class' => 'block',

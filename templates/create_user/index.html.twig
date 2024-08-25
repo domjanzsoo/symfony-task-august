@@ -3,8 +3,11 @@
 {% block title %}Add User{% endblock %}
 
 {% block body %}
+<div
+    class="w-full h-full p-5"
+    style="background:linear-gradient(0deg, rgba(4, 12, 26, 0.7), rgba(10, 35, 60, 0.9)), url('/stormtroopers/ship-create.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: cover">
     <div
-        class="relative mx-auto mt-16 p-5 bg-sky-800 w-[550px]"
+        class="relative mx-auto mt-[10%] opacity-75 p-5 bg-sky-800 w-[550px]"
     >
         <div class="mx-auto mt-5 text-3xl text-center text-white mb-3">Add User</div>
         {{ form_start(createForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
@@ -82,7 +85,7 @@
                     <div class="text-red-300">{{ form_errors(createForm.millitaryRank) }}</div>
                 </div>
                 <div class="flex flex-row justify-end col-span-2 pr-5 mt-6">
-                    <button type="submit" class="bg-blue-600 p-2 rounded-2xl text-white hover:bg-gray-400 ml-2">
+                    <button type="submit" class="bg-blue-600 p-2 rounded-2xl text-white hover:bg-sky-600 ml-2">
                         Submit
                     </button>
                     <a class="bg-gray-500 p-2 rounded-2xl text-white hover:bg-gray-400 ml-2" href="/user/list">
@@ -93,4 +96,5 @@
         </div>
         {{ form_end(createForm) }}
     </div>
+</div>
 {% endblock %}

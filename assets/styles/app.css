@@ -6,6 +6,11 @@ body {
     background-color: lightgray;
 }
 
+@font-face {
+    font-family: Abel;
+    src: url('/public/fonts/Abel-Regular.ttf') format('truetype');
+}
+
 .abel-regular {
     font-family: "Abel", sans-serif;
     font-weight: 400;
@@ -17,3 +22,18 @@ body {
     font-weight: 600;
     font-style: normal;
 }
+
+canvas#game-canvas {
+    display: block;
+    margin: auto;
+    position :absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast
+  }
+
