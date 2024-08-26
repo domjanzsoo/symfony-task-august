@@ -50,20 +50,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     */
    public function getAllQuery(string $search = null)
    {
-       $query = $this->createQueryBuilder('u');
+        $query = $this->createQueryBuilder('u');
 
         if (isset($search)) {
             $query->where('u.username LIKE :val')
                 ->orWhere('u.email LIKE :val')
                 ->orWhere('u.currentBase LIKE :val')
                 ->setParameter('val', '%' . $search . '%');
-        }
 
-        if (!$this->security->isGranted('ROLE_ABSOLUTE_ACCESS') && !$this->security->isGranted('ROLE_MANAGE_USER_PLUS')) {
+            if (!$this->security->isGranted('ROLE_ABSOLUTE_ACCESS') && !$this->security->isGranted('ROLE_MANAGE_USER_PLUS')) {
+                $query->andWhere("JSON_CONTAINS(u.roles, '\"ROLE_ABSOLUTE_ACCESS\"', '$') = false");
+            }
+        }  else if (!$this->security->isGranted('ROLE_ABSOLUTE_ACCESS') && !$this->security->isGranted('ROLE_MANAGE_USER_PLUS')) {
             $query->andWhere("JSON_CONTAINS(u.roles, '\"ROLE_ABSOLUTE_ACCESS\"', '$') = false");
         }
-
-        // dd($query->getQuery());
 
         return $query->orderBy('u.id', 'ASC')->getQuery();
    }
@@ -78,14 +78,4 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return;
    }
-
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

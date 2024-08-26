@@ -14,9 +14,9 @@
                 </div>
                 {% endif %}
                 {% if not app.user and app.request.get('_route') != 'app_register' %}<div class="float-right mt-4"><a href="{{ path('app_register') }}" class="hover:text-sky-600">Register </a></div>{% endif %}
-                {% if is_granted('ROLE_ABSOLUTE_ACCESS') %}<div x-on:click="$dispatch('display-game')" class="float-right mt-4 mr-2">|<span class="hover:text-sky-600 ml-1 mr-2 cursor-pointer">Practice</span></div>{% endif %}
+                {% if is_granted('ROLE_ABSOLUTE_ACCESS') %}<div x-on:click="$dispatch('display-game')" class="float-right mt-4 mr-2">|<span class="hover:text-sky-600 ml-1 mr-2 cursor-pointer">Simulator</span></div>{% endif %}
                 {% if is_granted('ROLE_ABSOLUTE_ACCESS') or is_granted('ROLE_MANAGE_USER_PLUS') and app.request.get('_route') != 'app_register' %}<div class="float-right mt-4 mr-2">|<a href="{{ path('app_list_users') }}" class="hover:text-sky-600 ml-1">All Users</a></div>{% endif %}
-                {% if is_granted('ROLE_ABSOLUTE_ACCESS') or is_granted('ROLE_MANAGE_USER') or is_granted('ROLE_MANAGE_USER_PLUS') %}<div class="float-right mt-4 mr-2">|<a href="{{ path('app_create_user') }}" class="hover:text-sky-600 ml-1">Add User </div>{% endif %}
+                {% if is_granted('ROLE_ABSOLUTE_ACCESS') or is_granted('ROLE_MANAGE_USER_PLUS') %}<div class="float-right mt-4 mr-2">|<a href="{{ path('app_create_user') }}" class="hover:text-sky-600 ml-1">Add User </div>{% endif %}
                 {% if app.user %}
                     <div class="float-right mt-4 mr-2">
                         |<a href="{{ path('app_logout') }}" class="hover:text-sky-600 ml-1">Logout </a>

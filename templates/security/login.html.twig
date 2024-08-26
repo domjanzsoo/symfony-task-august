@@ -9,7 +9,7 @@
     <div class="relative mx-auto mt-[10%] p-5 w-96 bg-sky-800 opacity-75 abel-regular">
         <form method="post">
             {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                <div class="alert alert-danger bg-red-800 text-white text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
             {% if app.user %}

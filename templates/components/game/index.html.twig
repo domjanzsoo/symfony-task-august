@@ -580,7 +580,7 @@ function updateAliens(dt) {
       return;
     }
 
-    alien.stepDelay = ((alienCount * 20) - (wave * 10)) / 1000;
+    alien.stepDelay = ((alienCount * 20) - (wave * 10)) / 800;
     if (alien.stepDelay <= 0.05) {
       alien.stepDelay = 0.05;
     }
@@ -694,8 +694,8 @@ function drawGame(resized) {
 }
 
 function drawStartScreen() {
-  fillCenteredText("Space Invaders", CANVAS_WIDTH/2, CANVAS_HEIGHT/2.75, '#FFFFFF', 36);
-  fillBlinkingText("Press enter to play!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 500, '#FFFFFF', 36);
+  fillCenteredText("Space Invaders Simulator", CANVAS_WIDTH/2, CANVAS_HEIGHT/2.75, '#FFFFFF', 36);
+  fillBlinkingText("Press enter to start!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 500, '#FFFFFF', 36);
 }
 
 function animate() {

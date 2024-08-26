@@ -16,7 +16,8 @@ class ListUsersController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em, Paginator $paginator): Response
     {
         $query = $em->getRepository(User::class)->getAllQuery($request->get('search', null));
-        $paginator->paginate($query, $request->get('page', 1));
+        $page = !empty($request->get('search', null)) ? 1 : $request->get('page', 1);
+        $paginator->paginate($query, $page);
 
         return $this->render('list_users/index.html.twig', [
             'controller_name' => 'ListUsersController',

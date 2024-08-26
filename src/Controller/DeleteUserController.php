@@ -23,16 +23,13 @@ class DeleteUserController extends AbstractController
 
             $repo->deleteUsers($request->request->all('userSelect'));
 
-            $getAllQuery = $repo->getAllQuery($request->get('search', null));
-            $page = !empty($request->get('page')) && is_numeric($request->get('page')) ? $request->get('page') : 1;
+            $getAllQuery = $repo->getAllQuery($request->request->get('search', null));
+            $page = !empty($request->request->get('page')) && is_numeric($request->request->get('page')) ? $request->request->get('page') : 1;
             $paginator->paginate($getAllQuery, $page);
 
             $em->getConnection()->commit();
 
-            return $this->render('list_users/index.html.twig', [
-                'controller_name' => 'ListUsersController',
-                'paginator' => $paginator
-            ]);
+            return $this->redirectToRoute('app_list_users', ['paginator' => $paginator]);
         } catch (Exception $e) {
             $em->getConnection()->rollBack();
 
